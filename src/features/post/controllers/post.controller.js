@@ -1,3 +1,4 @@
+import { customErrorHandler } from "../../../middlewares/errorHandler.js";
 import {
   createNewPost,
   deletePost,
@@ -22,22 +23,24 @@ export const getOnePost = (req, res, next) => {
   if (result) {
     res.status(200).json({ success: true, result });
   } else {
-    res.status(400).json({ success: false, msg: "No post found!!" });
+    throw new customErrorHandler(400, "No post found!!");
+
+    // res.status(400).json({ success: false, msg: "No post found!!" });
   }
 };
 
 export const getUserSpecificPost = (req, res, next) => {
   const userId = req.userId;
   if (!userId) {
-    res.status(401).json({ success: false, msg: "No user found" });
+    throw new customErrorHandler(400, "No user found!!");
+    // res.status(401).json({ success: false, msg: "No user found" });
   }
   const result = getUserPosts(userId);
   if (result) {
     res.status(200).json({ success: true, result });
   } else {
-    res
-      .status(400)
-      .json({ status: false, msg: "No post found for logged in user!!" });
+    throw new customErrorHandler(400, "No post found!!");
+    // res.status(400).json({ status: false, msg: "No post found for logged in user!!" });
   }
 };
 
@@ -55,7 +58,8 @@ export const removePost = (req, res, next) => {
   if (result?.status) {
     res.status(200).json(result);
   } else {
-    res.status(400).json(result);
+    throw new customErrorHandler(400, result?.msg);
+    // res.status(400).json(result);
   }
 };
 
@@ -66,6 +70,7 @@ export const updatePost = (req, res, next) => {
   if (result?.success) {
     res.status(200).json(result);
   } else {
-    res.status(400).json(result);
+    throw new customErrorHandler(400, result?.msg);
+    // res.status(400).json(result);
   }
 };

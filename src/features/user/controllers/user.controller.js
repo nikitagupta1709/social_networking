@@ -1,3 +1,4 @@
+import { customErrorHandler } from "../../../middlewares/errorHandler.js";
 import { loginUser, registerUser } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 export const signUp = (req, res, next) => {
@@ -6,7 +7,8 @@ export const signUp = (req, res, next) => {
     let user = registerUser(userData);
     res.status(201).send({ status: "success", user });
   } else {
-    res.status(400).json({ status: "failure", msg: "invalid user details;" });
+    throw new customErrorHandler(400, "Invalid user details !!");
+    // res.status(400).json({ status: "failure", msg: "invalid user details;" });
   }
 };
 
@@ -24,6 +26,7 @@ export const singIn = (req, res, next) => {
       .cookie("userId", user.id, { maxAge: 900000, httpOnly: false })
       .json({ status: "success", msg: "Login successful", token });
   } else {
-    res.status(400).json({ status: "failure", msg: "invalid user deatils" });
+    throw new customErrorHandler(400, "Invalid user details !!");
+    // res.status(400).json({ status: "failure", msg: "invalid user deatils" });
   }
 };

@@ -1,3 +1,4 @@
+import { customErrorHandler } from "../../../middlewares/errorHandler.js";
 import {
   addNewComment,
   deleteCommentModel,
@@ -11,7 +12,8 @@ export const fetchCommentForPost = (req, res, next) => {
   if (result?.success) {
     res.status(200).json(result);
   } else {
-    res.status(400).json(result);
+    throw new customErrorHandler(400, result?.msg);
+    // res.status(400).json(result);
   }
 };
 
@@ -28,7 +30,8 @@ export const newComment = (req, res, next) => {
   if (result?.success) {
     res.status(200).json(result);
   } else {
-    res.status(400).json(result);
+    throw new customErrorHandler(400, result?.msg);
+    // res.status(400).json(result);
   }
 };
 
@@ -38,7 +41,8 @@ export const deleteComment = (req, res, next) => {
   if (result?.success) {
     res.status(200).json(result);
   } else {
-    res.status(400).json(result);
+    throw new customErrorHandler(400, result?.msg);
+    // res.status(400).json(result);
   }
 };
 
@@ -46,12 +50,14 @@ export const putComment = (req, res, next) => {
   const { id } = req.params;
   const { content } = req.body;
   if (!content) {
-    res.status(400).json({ success: false, msg: "No content availabel!!" });
+    throw new customErrorHandler(400, "No content available!!");
+    // res.status(400).json({ success: false, msg: "No content availabel!!" });
   }
   const result = editCommentModel(id, content);
   if (result.success) {
     res.status(200).json(result);
   } else {
-    res.status(400).json(result);
+    throw new customErrorHandler(400, result?.msg);
+    // res.status(400).json(result);
   }
 };

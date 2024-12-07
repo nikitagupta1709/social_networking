@@ -1,3 +1,4 @@
+import { customErrorHandler } from "../../../middlewares/errorHandler.js";
 import { getPostLike, tooglePost } from "../models/like.model.js";
 
 export const getAllPostLikes = (req, res, next) => {
@@ -6,7 +7,8 @@ export const getAllPostLikes = (req, res, next) => {
   if (result?.success) {
     res.status(200).json(result);
   } else {
-    res.status(400).json(result);
+    throw new customErrorHandler(400, result?.msg);
+    // res.status(400).json(result);
   }
 };
 
@@ -17,6 +19,7 @@ export const addDelete = (req, res, next) => {
   if (result?.success) {
     res.status(200).json(result);
   } else {
-    res.status(400).json(result);
+    throw new customErrorHandler(400, result?.msg);
+    // res.status(400).json(result);
   }
 };
