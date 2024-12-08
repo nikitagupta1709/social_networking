@@ -46,8 +46,15 @@ export const getUserSpecificPost = (req, res, next) => {
 
 export const addPost = (req, res, next) => {
   const userId = req.userId;
-  const { caption, imageUrl } = req.body;
+  const { caption } = req.body;
+  const imageUrl = req.file ? `/public/upload/${req.file.filename}` : null;
   // Add validation for image url
+  if (!caption && !imageUrl) {
+    throw new customErrorHandler(
+      400,
+      "Caption or media is required to create a post."
+    );
+  }
   const result = createNewPost(userId, caption, imageUrl);
   res.status(200).json({ success: true, posts: result });
 };
@@ -65,7 +72,8 @@ export const removePost = (req, res, next) => {
 
 export const updatePost = (req, res, next) => {
   const { id } = req.params;
-  const { caption, imageUrl } = req.body;
+  const { caption } = req.body;
+  const imageUrl = req.file ? `/public/upload/${req.file.filename}` : null;
   const result = editPost(id, caption, imageUrl);
   if (result?.success) {
     res.status(200).json(result);
