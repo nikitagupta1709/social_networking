@@ -15,12 +15,6 @@ This is a RESTful API for a social media application built using **Express.js**,
 - [Technologies Used](#technologies-used)
 - [Features](#features)
 - [Code Organization](#code-organization)
-- [API Endpoints](#api-endpoints)
-- [Middleware](#middleware)
-- [Error Handling](#error-handling)
-- [How to Run the Application](#how-to-run-the-application)
-- [Dependencies](#dependencies)
-- [Contributors](#contributors)
 
 ## Technologies Used
 
